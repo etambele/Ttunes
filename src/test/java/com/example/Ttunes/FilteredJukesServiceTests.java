@@ -74,7 +74,7 @@ public class FilteredJukesServiceTests {
     }
 
     @Test(expected = NullJukeListException.class)
-    public void getFilterdJukesThrows() {
+    public void getFilterdJukesThrowsNullJukeListException() {
         Setting setting = new Setting.Builder().id("2468").requires(new ArrayList<>(Arrays.asList("speaker", "led_panel"))).build();
         Setting setting2 = new Setting.Builder().id("1357").requires(new ArrayList<>(Arrays.asList("speaker", "amplifier"))).build();
         Settings settings = new Settings.Builder().settings(new ArrayList<>(Arrays.asList(setting, setting2))).build();
@@ -88,7 +88,7 @@ public class FilteredJukesServiceTests {
     }
 
     @Test(expected = NullSettingsListException.class)
-    public void getFilterdJukesThrowsv() {
+    public void getFilterdJukesThrowsNullSettingsListException() {
         Component component = new Component.Builder()
                 .name("led_panel")
                 .build();
