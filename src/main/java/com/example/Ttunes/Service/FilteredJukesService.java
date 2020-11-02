@@ -46,11 +46,13 @@ public class FilteredJukesService implements IFilteredJukeService{
 
 
     private List<Juke> getJukesList(){
+        LOGGER.info("Getting list of Jukes from uri");
         Juke[] jukeList = restTemplate.exchange(Routes.BASE_URL + Routes.JUKES, HttpMethod.GET,null, Juke[].class).getBody();
         return Arrays.asList(Optional.ofNullable(jukeList).orElseThrow(NullJukeListException::new));
     }
 
     private Settings getSettingsList(){
+        LOGGER.info("Getting list of settings from uri");
         return Optional.ofNullable(restTemplate.exchange(Routes.BASE_URL + Routes.SETTINGS, HttpMethod.GET,null, Settings.class).getBody())
                 .orElseThrow(NullSettingsListException::new);
     }
@@ -68,9 +70,7 @@ public class FilteredJukesService implements IFilteredJukeService{
                             .map(Component::getName)
                             .collect(Collectors.toList());
 
-            if (filteredSetting.getRequires().size() > componentNames.size() && componentNames.containsAll(filteredSetting.getRequires()))
-                return true;
-            else return filteredSetting.getRequires().size() <= componentNames.size() && filteredSetting.getRequires().containsAll(componentNames);
+            return componentNames.containsAll(filteredSetting.getRequires());
         }).collect(Collectors.toList());
     }
 
